@@ -46,13 +46,14 @@
           <div class="card-body">
             <p class="card-text">{{ rt.rating }}</p>
           </div>
-          {% if user.is_authenticated and rt.user == request.user  %}
+          {% if user.is_authenticated and rt.reviewer == request.user  %}
             <div class="card-footer">
               <a href="{% url 'edit_rating' rt.id post.id %}" class="btn btn-sm btn-primary">Edit</a>
               <a href="{% url 'delete' rt.id post.id %}" class="btn btn-sm btn-primary">Delete</a>
             </div>
           {% endif %}
         </div>
+        
       </div>
     {% endfor %}
   </div>
