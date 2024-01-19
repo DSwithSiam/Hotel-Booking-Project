@@ -14,8 +14,8 @@
     <div class="col-12 col-md-7 px-3 pt-3 pt-md-0">
       <div>
         <h1 class="mb-3">{{ post.title }}</h1>
-        <h4 class="bg-info text-white d-inline px-2 rounded-1">Price: {{ post.price }}$</h4>
-        <small class="d-block">{{ post.address }}</small>
+        <h4 class="bg-info text-white d-inline px-2 rounded-1">Hotel Room Price: {{ post.price }} $</h4>
+        <small class="d-block"><Address>Address: {{ post.address }}</Address></small>
         <p class="mt-3">{{ post.content }}</p>
         {% if not booked %}
           <a href="{% url 'booking' post.id %}" class="btn btn-primary">Book Now</a>
@@ -46,7 +46,7 @@
           <div class="card-body">
             <p class="card-text">{{ rt.rating }}</p>
           </div>
-          {% if user.is_authenticated and cmt.user == request.user  %}
+          {% if user.is_authenticated and rt.user == request.user  %}
             <div class="card-footer">
               <a href="{% url 'edit_rating' rt.id post.id %}" class="btn btn-sm btn-primary">Edit</a>
               <a href="{% url 'delete' rt.id post.id %}" class="btn btn-sm btn-primary">Delete</a>
