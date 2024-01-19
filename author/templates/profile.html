@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+{{ type }}
+{% endblock title %}
+
+
+
+
+{% block content %}
+
+
+<div class="row py-5 px-4">
+    <div class="col-xl-11 col-md-11 col-sm-10 mx-auto">
+        <!-- Profile widget -->
+        <div class="bg-white shadow rounded overflow-hidden">
+            <div class="px-4 pt-0 pb-4 bg-dark">
+                <div class="media align-items-end profile-header">
+                    <div class="profile mr-3">
+                        <img
+                            src="https://bootstrapious.com/i/snippets/sn-profile/teacher.jpg"
+                            alt="..."
+                            width="130"
+                            class="rounded mb-2 img-thumbnail"
+                        >
+                        <a href="{% url 'edit_profile' %}" class="btn btn-dark btn-sm btn-block">Edit profile</a>
+                    </div>
+                    <div class="media-body mb-5 text-white">
+                        <h4 class="mt-0 mb-0">{{user_data.first_name}} {{user_data.last_name}}</h4>
+                        <p class="small mb-4">
+                            <i class="fa fa-map-marker mr-2"></i>@{{user_data.username}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <br>
+            <br>
+            <br>
+            <div class="row mt-5">
+                <div class="col-12 col-lg-3">
+                    <div class=" py-3">
+                        <p  class="d-block ps-3 fs-4 fw-bold" > Your Balance: {{user_data.user_account.balance}}</p>
+                        <a class="text-decoration-none d-block ps-3" href="{% url 'password_change' %}">Change Password</a>
+                        <a class="text-decoration-none d-block ps-3" href="{% url 'logout' %}">Logout</a>
+                        
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9 pb-5">
+                    <h4  class="text-center bg-secondary text-white d-inline d-flex m-auto p-2 px-3 rounded-2 mx-1 ">Booked Hostels List</h4>
+                    <div class="col-12 col-md-10 flex-wrap d-flex m-auto">
+                        <div class="d-flex flex-wrap gap-3 mt-3  d-flex m-auto ">
+                            {% if data %} 
+                            {% for post in data %}
+                            <div style="width: 18rem;" class="">
+                                <div class="card">
+                                    <img
+                                        class="p-1 w-100"
+                                        style=" height: 230px"
+                                        src="{{post.image.url}}"
+                                        alt=""
+                                    >
+                                    <div class="card-body">
+                                        <h5 class="card-title"> {{ post.title }}</h5>
+                                        <small>{{post.address}}</small>
+                                        <small class="card-text"> {{ post.content | truncatechars:50 }}</small>
+                                        <br>
+                                        <br>
+                                        <div class=" d-flex m-auto">
+                                            <a href="{% url 'hotel_leave' post.id %}" class="btn btn-danger d-flex m-auto ">Leave</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %} 
+                            {% else %} 
+                                No Data 
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End profile widget -->
+</div>
+</div>
+<style>
+    .profile-header {
+        transform: translateY(5rem);
+    }
+   
+    body {
+        
+        min-height: 100vh;
+    }
+</style>
+{% endblock %}
