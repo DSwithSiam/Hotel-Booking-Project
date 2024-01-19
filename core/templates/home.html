@@ -52,7 +52,7 @@ Home
               <h6>| Featured</h6>
               <h2>Best Appartment &amp; Sea view</h2>
             </div>
-            <div class="accordion" id="accordionExample">
+            <!-- <div class="accordion" id="accordionExample">
               <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                   <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -88,7 +88,7 @@ Home
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="col-lg-3">
             <div class="info-table">
@@ -191,7 +191,7 @@ Home
               <img src="{{ post.image.url }}" alt="">
               <span class="category">{{post.address}}</span>
               <h6>${{post.price}}</h6>
-              <h4><a href="property-details.html">{{post.title}}<</a></h4>
+              <h4><a href="property-details.html">{{post.title | upper}}</a></h4>
               <small>{{ post.content | truncatechars:120 }}</small>
               <div class="main-button mt-5">
                 <a href=" {% url 'detail_post' post.id %}">Details</a>
