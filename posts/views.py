@@ -37,7 +37,7 @@ class DetailsPostView(DetailView):
         context =  super().get_context_data(**kwargs)
         post = self.object 
         comments = post.comment.all()
-        rating_data = RatingModel.objects.all()
+        rating_data = RatingModel.objects.filter(post = post)
         comment_form = CommentForm()
         
         rating_form = RatingForm()
