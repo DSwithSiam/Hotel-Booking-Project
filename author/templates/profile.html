@@ -25,12 +25,19 @@
                             width="130"
                             class="rounded mb-2 img-thumbnail"
                         >
+                        <div class="pb-3 d-block d-md-none text-white">
+                            <h4 class="mt-0 mb-0">{{user_data.first_name}} {{user_data.last_name}}</h4>
+                            <p class="small">
+                                <i class="fa fa-map-marker "></i>@{{user_data.username}}
+                            </p>
+                        </div>
                         <a href="{% url 'edit_profile' %}" class="btn btn-dark btn-sm btn-block">Edit profile</a>
+                        
                     </div>
-                    <div class="media-body mb-5 text-white">
+                    <div class="media-body mb-5 text-white d-none d-md-block">
                         <h4 class="mt-0 mb-0">{{user_data.first_name}} {{user_data.last_name}}</h4>
                         <p class="small mb-4">
-                            <i class="fa fa-map-marker mr-2"></i>@{{user_data.username}}
+                            <i class="fa fa-map-marker "></i>@{{user_data.username}}
                         </p>
                     </div>
                 </div>
@@ -43,15 +50,16 @@
                 <div class="col-12 col-lg-3">
                     <div class=" py-3">
                         <p  class="d-block ps-3 fs-4 fw-bold" > Your Balance: {{user_data.user_account.balance}}</p>
-                        <a class="text-decoration-none d-block ps-3" href="{% url 'password_change' %}">Change Password</a>
+                        <a class="text-decoration-none d-block ps-3 btn btn-dark mx-3" href="{% url 'deposit' %}">Deposit Money</a>
+                        <a class="text-decoration-none d-block mt-2 ps-3" href="{% url 'password_change' %}">Change Password</a>
                         <a class="text-decoration-none d-block ps-3" href="{% url 'logout' %}">Logout</a>
                         
                     </div>
                 </div>
                 <div class="col-12 col-lg-9 pb-5">
                     <h4  class="text-center bg-secondary text-white d-inline d-flex m-auto p-2 px-3 rounded-2 mx-1 ">Booked Hostels List</h4>
-                    <div class="col-12 col-md-10 flex-wrap d-flex m-auto">
-                        <div class="d-flex flex-wrap gap-3 mt-3  d-flex m-auto ">
+                    <div class="col-12 col-md-10 flex-wrap d-flex ">
+                        <div class="d-flex flex-wrap gap-3 mt-3 ">
                             {% if data %} 
                             {% for post in data %}
                             <div style="width: 18rem;" class="">

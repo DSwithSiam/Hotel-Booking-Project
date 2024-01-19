@@ -58,13 +58,14 @@ def register_user(request):
             email.attach_alternative(email_body, "text/html")
             email.send()
             
-            return redirect('register')
+            return redirect('register_info')
     else:
         form = RegisterForm()
     return render(request, 'user_form.html', {'form': form, 'type': 'Register'})
 
 
-
+def RegisterInfo(request):
+    return render(request, 'register_info.html')
 
 def activate(request, uid64, token):
     try:
@@ -109,7 +110,7 @@ class userLoginView(LoginView):
 def UserLogout(request):
     if request.user.is_authenticated:
         logout(request)
-    return redirect('login')
+    return redirect('home_page')
 
 
 
