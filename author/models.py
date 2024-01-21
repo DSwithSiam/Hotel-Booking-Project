@@ -17,8 +17,10 @@ class HotelBookingData(models.Model):
     def __str__(self):
         return self.title
     
-    
+class UserProfile(models.Model):
+    image = models.ImageField(upload_to='profile/', null=True, blank=True, )
+    user = models.OneToOneField(User, related_name = 'user_profile', on_delete= models.CASCADE, blank=True, null=True)
     
 class UserAccount(models.Model):
-    balance = models.DecimalField(max_digits=10, decimal_places=1)
+    balance = models.DecimalField(max_digits=10, decimal_places=1, default=0)
     user = models.OneToOneField(User, on_delete= models.CASCADE, related_name = 'user_account',  blank=True, null=True, )

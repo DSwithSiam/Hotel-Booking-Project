@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib import messages
 from django.urls import reverse_lazy
-from author.models import HotelBookingData, UserAccount
+from author.models import HotelBookingData, UserAccount, UserProfile
 from .forms import *
 from posts.models import Post
 from django.contrib.auth import login
@@ -40,12 +40,22 @@ def ConfarmationEmail(user, to_user, type, subject, amount, template):
 
 def register_user(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             
             user = form.save(commit=False)
             user.is_active = False
             user.save()
+            
+            account = UserAccount.objects.create(balance = 0, user = user)
+            account.save()
+            
+            profile = UserProfile.objects.create(
+                image = form.cleaned_data['image'], 
+                user = user
+                )
+            profile.save()
+            
             messages.success(request, 'Account registration successful')
             
             token = default_token_generator.make_token(user)
@@ -83,7 +93,6 @@ def activate(request, uid64, token):
         return redirect('register')
 
 
-
 class userLoginView(LoginView):
     template_name = 'user_form.html'
    
@@ -103,8 +112,6 @@ class userLoginView(LoginView):
         context['type'] = 'Login'
         return context
 
-
-
     
 @login_required
 def UserLogout(request):
@@ -113,23 +120,20 @@ def UserLogout(request):
     return redirect('home_page')
 
 
-
-
 @login_required
 def profile(request):
     user_data = request.user
     data = HotelBookingData.objects.filter(author=request.user)
+    # image editing
+    image_form = ChangeProfileImage()
 
-    return render(request, 'profile.html', {'data': data, 'user_data': user_data})
+    # Image editing
+    if request.method == 'POST':
+        image_form = ChangeProfileImage(request.POST, request.FILES, instance=request.user.user_profile)
+        if image_form.is_valid():
+            image_form.save()
 
-
-@login_required
-def HotelLeave(request, id):
-    user_data = request.user
-    HotelBookingData.objects.get(pk = id).delete()
-    return redirect('profile')
-
-
+    return render(request, 'profile.html', {'data': data, 'user_data': user_data, 'edit_image': image_form })
 
 
 @login_required
@@ -137,13 +141,14 @@ def edit_profile(request):
     if request.method == 'POST':
         form = ChangeUserData(request.POST, instance = request.user)
         if form.is_valid():
-            form.save()
+            user = form.save()
             messages.success(request, 'Profile Updated Successfully ')
             return redirect('profile')
         
     else:
         form = ChangeUserData(instance = request.user)
     return render(request, 'edit_profile.html', {'form': form})
+
 
 
 
@@ -182,4 +187,13 @@ def Deposit (request):
     else:
         form = DepositForm()
     return render(request, 'deposti.html', {'form': form})
+
+
+@login_required
+def HotelLeave(request, id):
+    user_data = request.user
+    HotelBookingData.objects.get(pk = id).delete()
+    return redirect('profile')
+
+
     

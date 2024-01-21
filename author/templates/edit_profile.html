@@ -15,7 +15,7 @@
     <h1> Update Your Profile </h1>
 </div>
 
-<form method="post" class="w-50 m-auto  my-5" novalidate>
+<form method="post" class="w-50 m-auto  my-5" novalidate enctype="multipart/form-data">
     {% csrf_token %}
     <!-- {{ form | crispy }} -->
     {% for fm in form %}
@@ -23,7 +23,8 @@
     {{ fm }}
     <small class="text-danger">{{ fm.errors | striptags }}</small><br>
     {% endfor %}
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <br>
+    <button class="btn btn-primary" type="submit">Save</button>
 </form>
 
 {% endblock %}
